@@ -4,14 +4,13 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"os"
 
 	"github.com/gorilla/mux"
 )
 
 func main() {
 
-	port := os.Getenv("PORT")
+	//port := os.Getenv("PORT")
 	router := mux.NewRouter()
 	userDB := map[string]int{
 		"team":  23,
@@ -39,6 +38,9 @@ func main() {
 	router.HandleFunc("/login", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, "Login.html")
 	})
+	router.HandleFunc("/welcome", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, "welcome.html")
+	})
 	router.HandleFunc("/file", func(w http.ResponseWriter, r *http.Request) {
 		http.ServeFile(w, r, "name.txt")
 	})
@@ -52,5 +54,5 @@ func main() {
 	}).Methods("GET")
 
 	log.Print("The service is ready to listen and serve.")
-	log.Fatal(http.ListenAndServe(":"+port, router))
+	log.Fatal(http.ListenAndServe("localhost:8000", router))
 }
